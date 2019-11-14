@@ -1,7 +1,10 @@
 # Snoozzze
 
-Frontend React App.
-Backend Repository currently is: https://github.com/Build-Week-Sleep-Tracker-Oct/Back-End
+Frontend React App:
+- Staging: https://develop--snoozzze-app.netlify.com
+- Production: https://snoozzze-app.netlify.com/
+Backend Server:
+- https://github.com/Build-Week-Sleep-Tracker-Oct/Back-End
 
 ## Available Scripts
 
