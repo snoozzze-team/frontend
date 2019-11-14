@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Snoozzze
+
+Frontend React App.
+Backend Repository currently is: https://github.com/Build-Week-Sleep-Tracker-Oct/Back-End
 
 ## Available Scripts
 
