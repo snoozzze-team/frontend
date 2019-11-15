@@ -8,9 +8,11 @@ export default function Login() {
   })
   const [error, setError] = useState()
 
-  const onChange = () => {}
+  const handleChange = (e) => {
+      setCredentials({...credentials, [e.target.name]: e.target.value})
+  }
 
-  const onSubmit = async e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     try {
       const data = await LoginUser(credentials)
@@ -29,6 +31,7 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
+        {error && <div>{error}</div>}
       <input
         type="text"
         name="username"
