@@ -1,4 +1,10 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Snoozzze
+
+Frontend React App:
+- Staging: https://develop--snoozzze-app.netlify.com
+- Production: https://snoozzze-app.netlify.com/
+Backend Server:
+- https://github.com/Build-Week-Sleep-Tracker-Oct/Back-End
 
 ## Available Scripts
 
