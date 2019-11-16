@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { SignupUser, LoginUser, setToken } from "../utils/api"
 
 export default function Register() {
   const [account, setAccount] = useState({
@@ -7,12 +8,26 @@ export default function Register() {
     email: ""
   })
 
-  const onChange = () => {}
+  const [error, setError] = useState()
 
-  const onSubmit = () => {}
+  const handleChange = e => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      const data = await SignupUser(credentials)
+      setToken(data.token)
+    } catch (error) {
+      const status = error.response && error.response.status
+      setError(`${status}: ${error.response}`)
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
+      {error && <div>{error}</div>}
       <input
         type="email"
         name="email"
