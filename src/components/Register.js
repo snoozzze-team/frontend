@@ -45,6 +45,7 @@ export default function Register() {
         placeholder="email"
         value={account.email}
         onChange={handleChange}
+        required
       /><br/>
       <input
         type="text"
@@ -52,6 +53,7 @@ export default function Register() {
         placeholder="username"
         value={account.username}
         onChange={handleChange}
+        required
       /><br/>
       <input
         type="password"
@@ -59,6 +61,7 @@ export default function Register() {
         placeholder="password"
         value={account.password}
         onChange={handleChange}
+        required
       /><br/>
       <button>Sign Up!</button>
     </form>

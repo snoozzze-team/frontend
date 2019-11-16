@@ -38,6 +38,7 @@ export default function Login() {
         placeholder="Username"
         value={credentials.username}
         onChange={handleChange}
+        required
       /><br/>
       <input
         type="password"
@@ -45,6 +46,7 @@ export default function Login() {
         placeholder="Password"
         value={credentials.password}
         onChange={handleChange}
+        required
       /><br/>
       <button>Login</button>
     </form>
