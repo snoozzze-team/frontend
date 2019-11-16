@@ -31,19 +31,21 @@ export default function Login() {
 
   return (
     <form onSubmit={handleSubmit}>
-        {error && <div>{error}</div>}
+        {error && <div>{error}</div>}<br/>
       <input
         type="text"
         name="username"
+        placeholder="Username"
         value={credentials.username}
         onChange={handleChange}
-      />
+      /><br/>
       <input
         type="password"
         name="password"
+        placeholder="Password"
         value={credentials.password}
         onChange={handleChange}
-      />
+      /><br/>
       <button>Login</button>
     </form>
   )
