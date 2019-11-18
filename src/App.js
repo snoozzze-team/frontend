@@ -1,10 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
+import AuthModal from "./components/AuthModal"
+import { UserContext } from "./contexts"
 
 function App() {
+  const [user, setUser] = useState()
   return (
-    <div className="App">
-
-    </div>
+    <UserContext.Provider value={user}>
+      <div className="App">
+        <AuthModal />
+      </div>
+    </UserContext.Provider>
   )
 }
 
