@@ -41,24 +41,24 @@ export default function Register() {
       {error && <div>{error}</div>}<br/>
       <input
         type="email"
-        name="Email"
-        placeholder="email"
+        name="email"
+        placeholder="Email"
         value={account.email}
         onChange={handleChange}
         required
       /><br/>
       <input
         type="text"
-        name="Username"
-        placeholder="username"
+        name="username"
+        placeholder="Username"
         value={account.username}
         onChange={handleChange}
         required
       /><br/>
       <input
         type="password"
-        name="Password"
-        placeholder="password"
+        name="password"
+        placeholder="Password"
         value={account.password}
         onChange={handleChange}
         required
