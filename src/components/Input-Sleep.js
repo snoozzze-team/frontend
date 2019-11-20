@@ -41,7 +41,7 @@ function BTN(props) {
     return (
         <WrapperDiv>
     <div className="view">
-    <Button onClick={goSleep}>Going to Sleep</Button>
+    <Button onClick={goSleep}>Going To Sleep</Button>
     <Button onClick={wakingUp}>Getting Up</Button>
   </div>
   </WrapperDiv>
