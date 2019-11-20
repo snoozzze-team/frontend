@@ -1,12 +1,14 @@
 import React, { useState } from "react"
+import { Route } from 'react-router-dom';
+
 import AuthModal from "./components/AuthModal"
 import { UserContext } from "./contexts"
+import PureComponent from './components/Graph';
+import BTN from './components/Input-Sleep';
 
 
 
-import { Route } from 'react-router-dom';
-import PureComponent from './Component/Graph';
-import BTN from './Component/Input-Sleep';
+
 function App() {
   const [user, setUser] = useState()
   return (
@@ -15,7 +17,7 @@ function App() {
       <div className="App">
         <AuthModal />
         <Route exact path="/dashboard" component={PureComponent}/>
-      <Route exact path="/dashboard" component={BTN}/>
+        <Route exact path="/dashboard" component={BTN}/>
       </div>
     </UserContext.Provider>
   )
