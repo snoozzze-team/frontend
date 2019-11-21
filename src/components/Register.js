@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react"
-import { SignupUser, LoginUser, setToken } from "../utils/api"
-import { UserContext } from "../contexts"
+import React, { useState } from "react"
+import { SignupUser, LoginUser } from "../utils/api"
 
 export default function Register(props) {
   const [account, setAccount] = useState({
@@ -10,7 +9,6 @@ export default function Register(props) {
   })
 
   const [error, setError] = useState()
-  const { userId, setUserId } = useContext(UserContext)
 
   const handleChange = e => {
     setAccount({ ...account, [e.target.name]: e.target.value })
@@ -20,13 +18,12 @@ export default function Register(props) {
     e.preventDefault()
     try {
       const res = await SignupUser(account)
-      if (res.status === 200) {
+      if (res.status === 201 ) {
         try {
           const data = await LoginUser({
-            usernmae: account.username,
+            username: account.username,
             password: account.password
           })
-          setToken(data.token)
           props.history.push("/dashboard")
         } catch (error) {
           const status = error.response && error.response.status
