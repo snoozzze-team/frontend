@@ -32,6 +32,7 @@ export default function Register(props) {
       const status = error.response && error.response.status
       setError(`${status}: ${error.response}`)
     }
+  }
   
 
   return (
