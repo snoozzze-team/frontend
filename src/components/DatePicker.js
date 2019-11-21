@@ -9,15 +9,16 @@ const Style = styled.div`
 export default function TimePicker(props) {
   const [date, setDate] = useState(new Date())
   useEffect(() => {
+    
+  }, [])
+
+  const handleChange = date => {
+    setDate( date )
     props.onClick
       ? props.onClick(date)
       : console.log(
           "TimePicker.js: You need to pass a setting function as `onClick`"
         )
-  }, [])
-
-  const handleChange = date => {
-    setDate( date )
     console.log(date)
   }
 

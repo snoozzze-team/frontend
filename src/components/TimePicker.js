@@ -3,7 +3,6 @@ import styled from "styled-components"
 import dayjs from "dayjs"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons"
-import deepCyclicCopy from "jest-util/build/deepCyclicCopy"
 
 const Style = styled.div`
   display: flex;
@@ -15,7 +14,7 @@ const Style = styled.div`
   }
 `
 
-export default function TimePicker(props) {
+export default function TimePicker({ onClick }) {
   const currentTime = dayjs()
   const [time, setTime] = useState({
     hour: dayjs(currentTime).format("h"),
@@ -23,11 +22,12 @@ export default function TimePicker(props) {
     meridiem: dayjs(currentTime).format("a")
   })
   useEffect(() => {
-    props.onClick
-      ? props.onClick(time)
+    onClick
+      ? onClick(time)
       : console.log(
           "TimePicker.js: You need to pass a setting function as `onClick`"
         )
+    // eslint-disable-next-line
   }, [])
 
   const handleChange = e => {
@@ -54,7 +54,7 @@ export default function TimePicker(props) {
     const decrementedTime = parseInt(time[part]) - 1
     console.log(decrementedTime)
 
-    if (part == "hour" && decrementedTime !== 0) {
+    if (part === "hour" && decrementedTime !== 0) {
       setTime({ ...time, [part]: `${decrementedTime}` })
     }
     if (part === "minute" && decrementedTime !== -1) {
