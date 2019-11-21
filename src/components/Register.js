@@ -18,23 +18,21 @@ export default function Register(props) {
     e.preventDefault()
     try {
       const res = await SignupUser(account)
-      if (res.status === 201 ) {
-        try {
-          LoginUser({
-            username: account.username,
-            password: account.password
-          })
-          props.history.push("/dashboard")
-        } catch (error) {
-          const status = error.response && error.response.status
-          setError(`${status}: ${error.response}`)
-        }
+      try {
+        LoginUser({
+          username: account.username,
+          password: account.password
+        })
+        props.history.push("/dashboard")
+      } catch (error) {
+        const status = error.response && error.response.status
+        setError(`${status}: ${error.response}`)
       }
     } catch (error) {
       const status = error.response && error.response.status
       setError(`${status}: ${error.response}`)
     }
-  }
+  
 
   return (
     <form onSubmit={handleSubmit}>
