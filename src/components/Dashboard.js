@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useEffect, useContext } from "react"
 import jwt from "jwt-decode"
 import { getToken } from "../utils/axiosWithAuth"
 import { UserContext} from '../contexts'
@@ -11,7 +11,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     setUser(jwt(getToken()))
-  }, [])
+  }, [setUser])
   console.log(user)
 
   return (
