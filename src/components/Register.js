@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { SignupUser, LoginUser, setToken } from "../utils/api"
+import { UserContext } from "../contexts"
 
-export default function Register() {
+export default function Register(props) {
   const [account, setAccount] = useState({
     username: "",
     password: "",
@@ -9,6 +10,7 @@ export default function Register() {
   })
 
   const [error, setError] = useState()
+  const { userId, setUserId } = useContext(UserContext)
 
   const handleChange = e => {
     setAccount({ ...account, [e.target.name]: e.target.value })
@@ -25,6 +27,7 @@ export default function Register() {
             password: account.password
           })
           setToken(data.token)
+          props.history.push("/dashboard")
         } catch (error) {
           const status = error.response && error.response.status
           setError(`${status}: ${error.response}`)
@@ -38,7 +41,8 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit}>
-      {error && <div>{error}</div>}<br/>
+      {error && <div>{error}</div>}
+      <br />
       <input
         type="email"
         name="email"
@@ -46,7 +50,8 @@ export default function Register() {
         value={account.email}
         onChange={handleChange}
         required
-      /><br/>
+      />
+      <br />
       <input
         type="text"
         name="username"
@@ -54,7 +59,8 @@ export default function Register() {
         value={account.username}
         onChange={handleChange}
         required
-      /><br/>
+      />
+      <br />
       <input
         type="password"
         name="password"
@@ -62,7 +68,8 @@ export default function Register() {
         value={account.password}
         onChange={handleChange}
         required
-      /><br/>
+      />
+      <br />
       <button>Sign Up!</button>
     </form>
   )
