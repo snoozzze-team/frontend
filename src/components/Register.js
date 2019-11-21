@@ -20,7 +20,7 @@ export default function Register(props) {
       const res = await SignupUser(account)
       if (res.status === 201 ) {
         try {
-          const data = await LoginUser({
+          LoginUser({
             username: account.username,
             password: account.password
           })
