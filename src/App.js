@@ -8,7 +8,7 @@ import Dashboard from "./components/Dashboard"
 function App() {
   const [user, setUser] = useState()
   return (
-    <UserContext.Provider value={(user, setUser)}>
+    <UserContext.Provider value={{user, setUser}}>
       <div className="App">
         <Route
           exact
