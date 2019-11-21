@@ -15,7 +15,7 @@ export default function Login(props) {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const data = await LoginUser(credentials)
+      await LoginUser(credentials)
       props.history.push("/dashboard")
     } catch (error) {
       const status = error.response && error.response.status
