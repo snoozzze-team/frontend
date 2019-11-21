@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import jwt from "jwt-decode"
 import { getToken } from "../utils/axiosWithAuth"
+import { UserContext} from '../contexts'
 import Graph from "./Graph"
 import Buttons from "./Input-Sleep"
 
 export default function Dashboard() {
-  const [user, setUser] = useState()
+  const {user, setUser} = useContext(UserContext)
 
   useEffect(() => {
     setUser(jwt(getToken()))

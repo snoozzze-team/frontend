@@ -6,9 +6,9 @@ import AuthModal from "./components/AuthModal"
 import Dashboard from "./components/Dashboard"
 
 function App() {
-  const [userId, setUserId] = useState()
+  const [user, setUser] = useState()
   return (
-    <UserContext.Provider value={(userId, setUserId)}>
+    <UserContext.Provider value={(user, setUser)}>
       <div className="App">
         <Route
           exact
