@@ -1,14 +1,15 @@
 import React, { useState } from "react"
 import styled from "styled-components"
+import { NavLink } from "react-router-dom"
 import Login from "./Login"
 import Register from "./Register"
 
-export default function AuthModal() {
+export default function AuthModal({ isLogin, ...props }) {
   const Style = styled.div`
     position: fixed;
     width: 100%;
     height: 100%;
-    div > button {
+    div  button {
       border: 1px solid gray;
       background-color: lightgray;
       color: darkgray;
@@ -43,25 +44,18 @@ export default function AuthModal() {
     }
   `
 
-  const [isSignup, setIsSignup] = useState(false)
   return (
     <Style>
       <div>
         <div>
-          <button
-            onClick={() => setIsSignup(false)}
-            disabled={isSignup === false}
-          >
-            Login
-          </button>
-          <button
-            onClick={() => setIsSignup(true)}
-            disabled={isSignup === true}
-          >
-            Signup
-          </button>
+          <NavLink to="/">
+            <button disabled={isLogin}>Login</button>
+          </NavLink>
+          <NavLink to="/signup">
+            <button disabled={!isLogin}>Signup</button>
+          </NavLink>
         </div>
-        {isSignup ? <Register /> : <Login />}
+        {!isLogin ? <Register {...props}/> : <Login {...props} />}
       </div>
     </Style>
   )

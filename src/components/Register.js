@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { SignupUser, LoginUser, setToken } from "../utils/api"
+import { SignupUser, LoginUser } from "../utils/api"
 
-export default function Register() {
+export default function Register(props) {
   const [account, setAccount] = useState({
     username: "",
     password: "",
@@ -18,13 +18,13 @@ export default function Register() {
     e.preventDefault()
     try {
       const res = await SignupUser(account)
-      if (res.status === 200) {
+      if (res.status === 201 ) {
         try {
-          const data = await LoginUser({
-            usernmae: account.username,
+          LoginUser({
+            username: account.username,
             password: account.password
           })
-          setToken(data.token)
+          props.history.push("/dashboard")
         } catch (error) {
           const status = error.response && error.response.status
           setError(`${status}: ${error.response}`)
@@ -38,7 +38,8 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit}>
-      {error && <div>{error}</div>}<br/>
+      {error && <div>{error}</div>}
+      <br />
       <input
         type="email"
         name="email"
@@ -46,7 +47,8 @@ export default function Register() {
         value={account.email}
         onChange={handleChange}
         required
-      /><br/>
+      />
+      <br />
       <input
         type="text"
         name="username"
@@ -54,7 +56,8 @@ export default function Register() {
         value={account.username}
         onChange={handleChange}
         required
-      /><br/>
+      />
+      <br />
       <input
         type="password"
         name="password"
@@ -62,7 +65,8 @@ export default function Register() {
         value={account.password}
         onChange={handleChange}
         required
-      /><br/>
+      />
+      <br />
       <button>Sign Up!</button>
     </form>
   )

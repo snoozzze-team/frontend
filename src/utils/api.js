@@ -6,6 +6,7 @@ export function setToken(token){
 
 export const LoginUser = async (credentials) => {
     const res = await api().post('/api/auth/login', credentials)
+    setToken(res.data.token)
     return res.data
 }
 

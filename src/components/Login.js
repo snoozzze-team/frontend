@@ -1,7 +1,7 @@
 import React, { useState } from "react"
-import { LoginUser, setToken } from "../utils/api"
+import { LoginUser } from "../utils/api"
 
-export default function Login() {
+export default function Login(props) {
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""
@@ -16,7 +16,7 @@ export default function Login() {
     e.preventDefault()
     try {
       const data = await LoginUser(credentials)
-      setToken(data.token)
+      props.history.push("/dashboard")
     } catch (error) {
       const status = error.response && error.response.status
       switch (status) {
