@@ -1,10 +1,9 @@
 import React, { useState } from "react"
 import { Route } from "react-router-dom"
+import { UserContext } from "./contexts"
 import PrivateRoute from './components/PrivateRoute'
 import AuthModal from "./components/AuthModal"
-import { UserContext } from "./contexts"
-import PureComponent from "./components/Graph"
-import BTN from "./components/Input-Sleep"
+import Dashboard from "./components/Dashboard"
 
 function App() {
   const [userId, setUserId] = useState()
@@ -21,8 +20,7 @@ function App() {
           path="/signup"
           render={props => <AuthModal {...props} />}
         />
-        <PrivateRoute exact path="/dashboard" component={PureComponent} />
-        <PrivateRoute exact path="/dashboard" component={BTN} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
       </div>
     </UserContext.Provider>
   )
