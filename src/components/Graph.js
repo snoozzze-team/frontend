@@ -75,7 +75,7 @@ const CustomizedDot = (props) => {
 };
 
 
-export default class Example extends PureComponent {
+export default class Graph extends PureComponent {
 
     
   render() {
