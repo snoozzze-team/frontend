@@ -38,7 +38,6 @@ const SleepTableStyle = styled.div`
 
 function SleepTable (props) {
     const [sleepLog, setSleepLog] = useState([])
-
     const [editing, setEditing] = useState(false);
     const [logToEdit, setLogToEdit] = useState({});
     const [newTime, setNewTime] = useState(0)
@@ -107,17 +106,8 @@ function SleepTable (props) {
                             {/* <td>{log.Sleepscore || 'Not Available'}</td> */}
                             <td>{log.feels}</td>
                             <td>
-                                <button>Edit</button>
-                                {/* {editing && (
-                                    // <form onSubmit={saveEdit}>
-                                    //     {/* <input
-                                    //         placeholder="time slept"
-                                    //         type="text"
-                                    //         name="timeSlept"
-                                    //         value={}
-                                    //         >
-                                    //     </input> */}
-                                    {/* // </form> */}
+                                <button onClick={(log) => editLog(log)}>Edit</button>
+                                
                                 
                             </td>
                             <td>
@@ -128,11 +118,27 @@ function SleepTable (props) {
                             </td>
                         </tr>
                     ))}
+                  
                 
                 </tbody>
             </table>
-        </SleepTableStyle>
-       
+            {editing && (
+                        
+                        <form >
+                            <input
+                                placeholder="time slept"
+                                type="text"
+                                name="timeSlept"
+                                // value={}
+                                // onChange={}
+                                >
+                            
+                            </input>
+                            <button type="submit">Submit</button>
+                        </form>
+                        
+                    )}
+        </SleepTableStyle> 
     )
 }
 
