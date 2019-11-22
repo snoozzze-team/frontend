@@ -3,8 +3,7 @@ import React, {useState, useEffect} from "react"
 import styled from "styled-components"
 
 import axiosWithAuth from "../utils/axiosWithAuth"
-
-import api from '../utils/axiosWithAuth'
+import dayjs from "dayjs"
 
 //Styled Components
 
@@ -38,14 +37,7 @@ const SleepTableStyle = styled.div`
 //SleepTable React Component
 
 function SleepTable (props) {
-    const [sleepLog, setSleepLog] = useState([{
-        id: 1,
-        userId: '4',
-        dateTimeFrom: '2019-10-22T23:00',
-        dateTimeTo: '2019-10-23T08:00',
-        feels: '4',
-        notes: 'Slept Great -Taran'
-    }])
+    const [sleepLog, setSleepLog] = useState([])
 
     const [editing, setEditing] = useState(false);
     const [logToEdit, setLogToEdit] = useState({});
@@ -60,8 +52,7 @@ function SleepTable (props) {
     useEffect(()=>{
         axiosWithAuth().get(`/api/users/sleepdata`)
             .then(res=>
-                console.log(res)
-                // setSleepLog(res.data)
+               setSleepLog(res.data)
                 )
             .catch(err=>
                 console.log(err.response)
@@ -102,17 +93,19 @@ function SleepTable (props) {
                     <tr>
                         <th>Date</th>
                         <th>Hours Slept</th>
-                        <th>Sleep Score</th>
+                        <th>Mood</th>
+                        {/* <th>Sleep Score</th> */}
                         <th>Update</th>
                         <th>Delete</th>
                     </tr>
                    
-
+                    
                     {sleepLog.map(log => (
                         <tr>
+                            <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
+                            <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
+                            {/* <td>{log.Sleepscore || 'Not Available'}</td> */}
                             <td>{log.feels}</td>
-                            <td>{log.dateTimeFrom - log.dateTimeTo}</td>
-                            <td>{log.Sleepscore || 'Not Available'}</td>
                             <td>
                                 <button>Edit</button>
                                 {/* {editing && (
