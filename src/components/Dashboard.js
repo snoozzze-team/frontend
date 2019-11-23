@@ -20,7 +20,7 @@ export default function Dashboard() {
       {user && <h1>Welcome {user.username}</h1>}
       <Graph />
       <Buttons isAdding={isAdding} setIsAdding={setIsAdding}/>
-      {isAdding && <SleepModal />}
+      {isAdding && <SleepModal setIsAdding={setIsAdding} userId={user.id}/>}
     </div>
   )
 }
