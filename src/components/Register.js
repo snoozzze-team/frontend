@@ -17,9 +17,9 @@ export default function Register(props) {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      SignupUser(account)
+      await SignupUser(account)
       try {
-        LoginUser({
+        await LoginUser({
           username: account.username,
           password: account.password
         })
