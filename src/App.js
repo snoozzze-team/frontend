@@ -1,25 +1,28 @@
-import React from "react"
-import logo from "./logo.svg"
-import "./App.css"
+import React, { useState } from "react"
+import { Route } from "react-router-dom"
+import { UserContext } from "./contexts"
+import PrivateRoute from './components/PrivateRoute'
+import AuthModal from "./components/AuthModal"
+import Dashboard from "./components/Dashboard"
 
 function App() {
+  const [user, setUser] = useState()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={{user, setUser}}>
+      <div className="App">
+        <Route
+          exact
+          path="/"
+          render={props => <AuthModal {...props} isLogin/>}
+        />
+        <Route
+          exact
+          path="/signup"
+          render={props => <AuthModal {...props} />}
+        />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+      </div>
+    </UserContext.Provider>
   )
 }
 
