@@ -16,6 +16,6 @@ export const SignupUser = async user => {
 }
 
 export const AddSleepEntry = async entry => {
-  const res = await api().post("/api/user/sleepdata", entry)
+  const res = await api().post("/api/users/sleepdata", JSON.stringify(entry))
   return res.data
 }
