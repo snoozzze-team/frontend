@@ -7,16 +7,41 @@ import Mood from "./Mood"
 import zzz from "../assets/zzz.gif"
 
 const Style = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: fixed;
+  z-index: 9999;
+  width:100%;
+  height: 100%;
+  background: rgb(0,0,0,0.5);
   > div {
+    
+    background: white;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    width:50%;
+    min-width: 300px;
+    margin: 20% auto;
+    padding: 2rem 0;
+    > div {
+      display: flex;
+      align-items: center;
+    }
+    > button {
+      width: 50%;
+    }
   }
-  > button {
-    width: 50%;
-  }
+`
+const SubStyle =styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > div {
+      display: flex;
+      align-items: center;
+    }
+    > button {
+      width: 50%;
+    }
 `
 
 const Snooze = styled.div`
@@ -28,34 +53,34 @@ const Snooze = styled.div`
 
 function StartSleep({ setSleepState }) {
   return (
-    <Style>
+    <SubStyle>
       <h3>Rate how you felt during the day.</h3>
       <Mood name="duringDay" />
       <h3>Rate how you feel right now.</h3>
       <Mood name="beforeSleep" />
       <TimePicker starting />
       <button onClick={() => setSleepState("sleeping")}>Start Sleep</button>
-    </Style>
+    </SubStyle>
   )
 }
 
 function Asleep({ setSleepState }) {
   return (
-    <Style>
+    <SubStyle>
       <Snooze />
       <button onClick={() => setSleepState("wakeup")}>Wake Up</button>
-    </Style>
+    </SubStyle>
   )
 }
 
 function WakeUp({ saveEntry }) {
   return (
-    <Style>
+    <SubStyle>
       <h3>Rate how well you slept.</h3>
       <Mood name="afterSleep" />
       <TimePicker />
       <button onClick={saveEntry}>Save Sleep Entry</button>
-    </Style>
+    </SubStyle>
   )
 }
 
@@ -118,17 +143,19 @@ export default function SleepModal(props) {
       value={{ start, setStart, end, setEnd, mood, setMood }}
     >
       <Style>
-        {error && <div>{error}</div>}
-        {loading && <div>Loading...</div>}
-        {!loading && sleepState === "goingtosleep" && (
-          <StartSleep setSleepState={setSleepState} />
-        )}
-        {!loading && sleepState === "sleeping" && (
-          <Asleep setSleepState={setSleepState} />
-        )}
-        {!loading && sleepState === "wakeup" && (
-          <WakeUp saveEntry={saveEntry} />
-        )}
+        <div>
+          {error && <div>{error}</div>}
+          {loading && <div>Loading...</div>}
+          {!loading && sleepState === "goingtosleep" && (
+            <StartSleep setSleepState={setSleepState} />
+          )}
+          {!loading && sleepState === "sleeping" && (
+            <Asleep setSleepState={setSleepState} />
+          )}
+          {!loading && sleepState === "wakeup" && (
+            <WakeUp saveEntry={saveEntry} />
+          )}
+        </div>
       </Style>
     </SleepContext.Provider>
   )

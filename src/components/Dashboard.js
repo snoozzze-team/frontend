@@ -17,10 +17,10 @@ export default function Dashboard() {
 
   return (
     <div>
+      {isAdding && <SleepModal setIsAdding={setIsAdding} userId={user.id}/>}
       {user && <h1>Welcome {user.username}</h1>}
       <Graph />
       <Buttons isAdding={isAdding} setIsAdding={setIsAdding}/>
-      {isAdding && <SleepModal setIsAdding={setIsAdding} userId={user.id}/>}
     </div>
   )
 }
