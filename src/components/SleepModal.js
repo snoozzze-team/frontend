@@ -71,10 +71,11 @@ export default function SleepModal(props) {
     afterSleep: ""
   })
   const [sleepEntry, setSleepEntry] = useState({
+    userId: props.userId,
     dateTimeFrom: "",
     dateTimeTo: "",
     feels: "",
-    notes: ""
+    notes: "placeholder"
   })
 
   useEffect(() => {
