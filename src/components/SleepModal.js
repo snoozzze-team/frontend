@@ -8,21 +8,26 @@ import zzz from "../assets/zzz.gif"
 
 const Style = styled.div`
   position: fixed;
-  top:0;
+  top: 0;
   z-index: 9999;
-  width:100%;
+  width: 100%;
   height: 100%;
-  background: rgb(0,0,0,0.5);
+  background: rgb(0, 0, 0, 0.5);
   > div {
-    
     background: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width:50%;
+    width: 50%;
     min-width: 300px;
     margin: 20% auto;
-    padding: 2rem 0;
+    padding-bottom: 3rem ;
+    > h1 {
+      cursor: pointer;
+      align-self: flex-end;
+      margin-top: 2rem;
+      margin-right: 3rem;
+    }
     > div {
       display: flex;
       align-items: center;
@@ -32,17 +37,17 @@ const Style = styled.div`
     }
   }
 `
-const SubStyle =styled.div`
+const SubStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > div {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    > div {
-      display: flex;
-      align-items: center;
-    }
-    > button {
-      width: 50%;
-    }
+  }
+  > button {
+    width: 50%;
+  }
 `
 
 const Snooze = styled.div`
@@ -145,6 +150,7 @@ export default function SleepModal(props) {
     >
       <Style>
         <div>
+          <h1 onClick={() => props.setIsAdding(false)}>X</h1>
           {error && <div>{error}</div>}
           {loading && <div>Loading...</div>}
           {!loading && sleepState === "goingtosleep" && (
