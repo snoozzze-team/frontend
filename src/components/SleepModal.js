@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import DatePicker from "./DatePicker"
+import { SleepContext } from "../contexts"
+import { AddSleepEntry } from "../utils/api"
 import TimePicker from "./TimePicker"
 import Mood from "./Mood"
 import zzz from "../assets/zzz.gif"
+
+const Style = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+  > button {
+    width: 50%;
+  }
+`
 
 const Snooze = styled.div`
   background-image: url(${zzz});
@@ -14,44 +28,43 @@ const Snooze = styled.div`
 
 function StartSleep({ setSleepState }) {
   return (
-    <div>
-      <h3>How did you feel during the day?</h3>
-      <Mood />
-
-      <DatePicker />
-      <TimePicker />
+    <Style>
+      <h3>Rate how you felt during the day.</h3>
+      <Mood name="duringDay" />
+      <h3>Rate how you feel right now.</h3>
+      <Mood name="beforeSleep" />
+      <TimePicker starting />
       <button onClick={() => setSleepState("sleeping")}>Start Sleep</button>
-    </div>
+    </Style>
   )
 }
 
 function Asleep({ setSleepState }) {
   return (
-    <div>
+    <Style>
       <Snooze />
       <button onClick={() => setSleepState("wakeup")}>Wake Up</button>
-    </div>
+    </Style>
   )
 }
 
-function WakeUp() {
+function WakeUp({ saveEntry }) {
   return (
-    <div>
-      <h3>Did you sleep well?</h3>
-      <Mood />
-      <DatePicker />
+    <Style>
+      <h3>Rate how well you slept.</h3>
+      <Mood name="afterSleep" />
       <TimePicker />
-      <button>Save Sleep Entry</button>
-    </div>
+      <button onClick={saveEntry}>Save Sleep Entry</button>
+    </Style>
   )
 }
 
-export default function SleepModal() {
-  //startSleep is set to true when the 'start sleep' button is clicked
+export default function SleepModal(props) {
   const [sleepState, setSleepState] = useState("goingtosleep")
-  //when startSleep is true, this modal will show the current sleep duration
-  //endSleep is set to true when the 'end sleep' button is clicked
-  //when endSleep is true,
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState()
+  const [start, setStart] = useState()
+  const [end, setEnd] = useState()
   const [mood, setMood] = useState({
     duringDay: "",
     beforeSleep: "",
@@ -64,11 +77,58 @@ export default function SleepModal() {
     notes: ""
   })
 
+  useEffect(() => {
+    setSleepEntry(entry => ({
+      ...entry,
+      feels: Math.round(
+        (mood.duringDay + mood.beforeSleep + mood.afterSleep) / 3
+      )
+    }))
+  }, [mood])
+
+  useEffect(() => {
+    setSleepEntry(entry => ({
+      ...entry,
+      dateTimeFrom: start
+    }))
+  }, [start])
+
+  useEffect(() => {
+    setSleepEntry(entry => ({
+      ...entry,
+      dateTimeTo: end
+    }))
+  }, [end])
+
+  const saveEntry = async () => {
+    setLoading(true)
+    try {
+      await AddSleepEntry(sleepEntry)
+      setLoading(false)
+      props.setIsAdding(false)
+    } catch (error) {
+      setLoading(false)
+      setError(error.response)
+    }
+  }
+  console.log(sleepEntry)
   return (
-    <div>
-      {sleepState === "goingtosleep" && <StartSleep setSleepState={setSleepState} />}
-      {sleepState === "sleeping" && <Asleep setSleepState={setSleepState} />}
-      {sleepState === "wakeup" && <WakeUp />}
-    </div>
+    <SleepContext.Provider
+      value={{ start, setStart, end, setEnd, mood, setMood }}
+    >
+      <Style>
+        {error && <div>{error}</div>}
+        {loading && <div>Loading...</div>}
+        {!loading && sleepState === "goingtosleep" && (
+          <StartSleep setSleepState={setSleepState} />
+        )}
+        {!loading && sleepState === "sleeping" && (
+          <Asleep setSleepState={setSleepState} />
+        )}
+        {!loading && sleepState === "wakeup" && (
+          <WakeUp saveEntry={saveEntry} />
+        )}
+      </Style>
+    </SleepContext.Provider>
   )
 }
