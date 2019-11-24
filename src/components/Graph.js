@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
 
  
   const WrapperDiv = styled.div`
