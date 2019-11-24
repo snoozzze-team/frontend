@@ -36,11 +36,20 @@ const SleepTableStyle = styled.div`
 
 //SleepTable React Component
 
+const initialLog = {
+
+}
+
 function SleepTable (props) {
     const [sleepLog, setSleepLog] = useState([])
     const [editing, setEditing] = useState(false);
-    const [logToEdit, setLogToEdit] = useState({});
-    const [newTime, setNewTime] = useState(0)
+    const [logToEdit, setLogToEdit] = useState({
+        id: "",
+        dateTimeFrom: "",
+        dateTimeTo: "",
+        feels: "",
+        notes:""
+    });
     const [newMood, setNewMood] = useState({})
 
     const editLog = log => {
@@ -72,10 +81,13 @@ function SleepTable (props) {
 
 
     const updateSleepEntry = sleepEntry =>{
-        axiosWithAuth().put(`/api/users/sleepdata/${sleepEntry.id}`, sleepEntry)
+        sleepEntry.preventDefault()
+        console.log(logToEdit)
+        axiosWithAuth().put(`/api/users/sleepdata/${sleepEntry.id}`, logToEdit)
             .then(res=> {
                 console.log(res)
-                setSleepLog(sleepLog.filter(sleep=>sleep.id !== sleepEntry.id))
+                setSleepLog([...sleepLog.filter(sleep=>sleep.id !== res.data.id), res.data.feels])
+                setEditing(false)
             })
             .catch(err=>{
                 console.log(err)
@@ -92,21 +104,20 @@ function SleepTable (props) {
                     <tr>
                         <th>Date</th>
                         <th>Hours Slept</th>
-                        <th>Mood</th>
-                        {/* <th>Sleep Score</th> */}
+                        <th>Feeling</th>
                         <th>Update</th>
                         <th>Delete</th>
                     </tr>
                    
                     
                     {sleepLog.map(log => (
-                        <tr>
+                        <tr key={log.id}>
                             <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
                             <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
                             {/* <td>{log.Sleepscore || 'Not Available'}</td> */}
                             <td>{log.feels}</td>
                             <td>
-                                <button onClick={(log) => editLog(log)}>Edit</button>
+                                <button onClick={(e) => editLog(log)}>Edit</button>
                                 
                                 
                             </td>
@@ -124,16 +135,19 @@ function SleepTable (props) {
             </table>
             {editing && (
                         
-                        <form >
+                        <form onSubmit={updateSleepEntry}>
+                            <label>Update Your Mood</label>
                             <input
-                                placeholder="time slept"
+                                placeholder="Mood"
                                 type="text"
-                                name="timeSlept"
-                                // value={}
-                                // onChange={}
-                                >
+                                name="feels"
+                                value={logToEdit.feels}
+                                onChange={e =>
+                                    setLogToEdit({...logToEdit, feels: e.target.value })    
+                                }
+                            />
                             
-                            </input>
+                           
                             <button type="submit">Submit</button>
                         </form>
                         
