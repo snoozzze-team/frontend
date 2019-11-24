@@ -1,8 +1,9 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 
 import styled from "styled-components"
 
 import axiosWithAuth from "../utils/axiosWithAuth"
+import dayjs from "dayjs"
 
 //Styled Components
 
@@ -35,31 +36,66 @@ const SleepTableStyle = styled.div`
 
 //SleepTable React Component
 
+const initialLog = {
+
+}
+
 function SleepTable (props) {
-    const [sleepLog, setSleepLog] = useState([{
-        userId: '4',
-        dateTimeFrom: '2019-10-22T23:00',
-        dateTimeTo: '2019-10-23T08:00',
-        feels: '4',
-        notes: 'Slept Great -Taran'
-    }])
+    const [sleepLog, setSleepLog] = useState([])
+    const [editing, setEditing] = useState(false);
+    const [logToEdit, setLogToEdit] = useState({
+        id: "",
+        dateTimeFrom: "",
+        dateTimeTo: "",
+        feels: "",
+        notes:""
+    });
+    const [newMood, setNewMood] = useState({})
+
+    const editLog = log => {
+        setEditing(true);
+        setLogToEdit(log);
+      };
+
+    useEffect(()=>{
+        axiosWithAuth().get(`/api/users/sleepdata`)
+            .then(res=>
+               setSleepLog(res.data)
+                )
+            .catch(err=>
+                console.log(err.response)
+                )
+    }, [])
 
 
-    axiosWithAuth().get("/api/users/sleepdata")
-        .then(res=>
-            console.log(res)
-            // setSleepLog(res)
-            )
-        .catch(err=>
-            console.log(err.response)
-            )
+    const deleteSleepEntry = sleepEntry =>{
+        axiosWithAuth().delete(`/api/users/sleepdata/${sleepEntry.id}`)
+            .then(res=> {
+                console.log(res)
+                setSleepLog(sleepLog.filter(sleep=>sleep.id !== sleepEntry.id))
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
 
+
+    const updateSleepEntry = sleepEntry =>{
+        sleepEntry.preventDefault()
+        console.log(logToEdit)
+        axiosWithAuth().put(`/api/users/sleepdata/${sleepEntry.id}`, logToEdit)
+            .then(res=> {
+                console.log(res)
+                setSleepLog([...sleepLog.filter(sleep=>sleep.id !== res.data.id), res.data.feels])
+                setEditing(false)
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+    }
 
     
     return (
-       
-        //TO-DO - Create filter to filter by User ID so that table only shows logs for the logged in User ID
-        
         <SleepTableStyle>
             <h1>Sleep Table</h1>
             <table>
@@ -68,27 +104,55 @@ function SleepTable (props) {
                     <tr>
                         <th>Date</th>
                         <th>Hours Slept</th>
-                        <th>Sleep Score</th>
+                        <th>Feeling</th>
                         <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                    
-
+                    
                     {sleepLog.map(log => (
-                        <tr>
+                        <tr key={log.id}>
+                            <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
+                            <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
+                            {/* <td>{log.Sleepscore || 'Not Available'}</td> */}
                             <td>{log.feels}</td>
-                            <td>{log.dateTimeFrom - log.dateTimeTo}</td>
-                    <td>{log.Sleepscore || 'Not Available'}</td>
                             <td>
-                                <button>Edit</button>
-                                <span> X </span>
+                                <button onClick={(e) => editLog(log)}>Edit</button>
+                                
+                                
+                            </td>
+                            <td>
+                                <span onClick={e=>{
+                                    e.stopPropagation();
+                                    deleteSleepEntry(log)
+                                }}> X </span>
                             </td>
                         </tr>
                     ))}
+                  
                 
                 </tbody>
             </table>
-        </SleepTableStyle>
-       
+            {editing && (
+                        
+                        <form onSubmit={updateSleepEntry}>
+                            <label>Update Your Mood</label>
+                            <input
+                                placeholder="Mood"
+                                type="text"
+                                name="feels"
+                                value={logToEdit.feels}
+                                onChange={e =>
+                                    setLogToEdit({...logToEdit, feels: e.target.value })    
+                                }
+                            />
+                            
+                           
+                            <button type="submit">Submit</button>
+                        </form>
+                        
+                    )}
+        </SleepTableStyle> 
     )
 }
 
