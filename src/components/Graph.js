@@ -1,13 +1,13 @@
-import React, { PureComponent, useEffect, useState } from "react";
+import React from "react";
 
-import axios from "axios";
+import axiosWithAuth from "../utils/axiosWithAuth"
 import styled from 'styled-components';
 
 
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, } from 'recharts';
 
- 
+ // styling 
   const WrapperDiv = styled.div`
       width: 900px;
       height: 500px;
@@ -28,35 +28,55 @@ const StyledHeading = styled.h2`
       text-align: center;
 `;
 
-const data = [
-  {
-    name: '1 Day', Hour: 1, Feeling: 1,
-  },
-  {
-    name: '2 Day', Hour: 3, Feeling: 4,
-  },
-  {
-    name: '3 Day', Hour: 4, Feeling: 3,
-  },
-  {
-    name: '4 Day', Hour: 12, Feeling: 2,
-  },
-  {
-    name: '5 Day', Hour: 8, Feeling: 1,
-  },
-  {  
-    name: '6 Day', Hour: 2, Feeling: 1,
-  },
-  {
-    name: '7 Day', Hour: 3, Feeling: 3,
-  }, 
+
+// Demo data
+// const data = [
+//   {
+//     name: '1 Day', Hour: 1, Feeling: 1,
+//   },
+//   {
+//     name: '2 Day', Hour: 3, Feeling: 4,
+//   },
+//   {
+//     name: '3 Day', Hour: 4, Feeling: 3,
+//   },
+//   {
+//     name: '4 Day', Hour: 12, Feeling: 2,
+//   },
+//   {
+//     name: '5 Day', Hour: 8, Feeling: 1,
+//   },
+//   {  
+//     name: '6 Day', Hour: 2, Feeling: 1,
+//   },
+//   {
+//     name: '7 Day', Hour: 3, Feeling: 3,
+//   }, 
   
-];
+// ];
 
 
+
+//APi 
+const data = function() {
+  
+  axiosWithAuth().get("/api/users/sleepdata")
+      .then(res=>
+          console.log(res)
+          )
+      .catch(err=>
+          console.log('The Greaph API is currently down, try again later', err.response)
+          
+          )
+      };
+
+
+
+
+// custom emoji faces
 const CustomizedDot = (props) => {
   const {
-    cx, cy, stroke, payload, value,
+    cx, cy, value,
   } = props;
 
   if (value > 2) {
@@ -75,10 +95,9 @@ const CustomizedDot = (props) => {
 };
 
 
-export default class Graph extends PureComponent {
-
-    
-  render() {
+//graph display
+function Graph () {
+  
     return (
       <div className='body'>
       <WrapperDiv>
@@ -86,7 +105,7 @@ export default class Graph extends PureComponent {
           <LineChart
             width={900}
             height={400}
-            data={data}
+            data={data.map}
             margin={{
               top: 5, right: 30, left: 20, bottom: 5,
             }}
@@ -103,5 +122,6 @@ export default class Graph extends PureComponent {
           </WrapperDiv>
           </div>
     );
-  }
 }
+
+export default  Graph;
