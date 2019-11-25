@@ -7,6 +7,11 @@ import Buttons from "./Buttons"
 import SleepModal from "./SleepModal"
 import SleepTable from "./SleepTable"
 import SleepTime from "./SleepTime"
+import styled from "styled-components"
+
+const Welcome = styled.h1`
+    text-align: center;
+`
 
 export default function Dashboard() {
   const { user, setUser } = useContext(UserContext)
@@ -20,7 +25,7 @@ export default function Dashboard() {
   return (
     <div>
       {isAdding && <SleepModal setIsAdding={setIsAdding} userId={user.id}/>}
-      {user && <h1>Welcome {user.username}</h1>}
+      {user && <Welcome>Welcome {user.username}</Welcome>}
       <Graph />
       <Buttons isAdding={isAdding} setIsAdding={setIsAdding}/>
       <SleepTime/>
