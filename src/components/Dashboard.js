@@ -24,7 +24,7 @@ export default function Dashboard() {
       <Graph />
       <Buttons isAdding={isAdding} setIsAdding={setIsAdding}/>
       <SleepTime/>
-      <SleepTable/>
+      <SleepTable isAdding={isAdding} setIsAdding={setIsAdding}/>
     </div>
   )
 }

@@ -7,30 +7,69 @@ import dayjs from "dayjs"
 
 //Styled Components
 
+const Style = styled.div`
+  width: 900px;
+ 
+  justify-content: center;
+  flex-direction: row;
+  box-sizing: content-box;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: solid #fff13a 4px;
+  background: #40376e;
+  padding: 10px;
+  border-radius: 50px;
+  
+  color: #D7D9CE;
+`
 
+const Toggle = styled.button`
+  color: #fff13a;
+  background: #00272b;
+  
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid #fff13a;
+  border-radius: 10px;
+`
 
 const SleepTableStyle = styled.div`
   color: #040404;
-  width: 1000px;
+  width: 850px;
   text-align: center;
   margin: 0 auto;
+  border-radius: 50px;
+  
 
-  tr {
-    border: 3px #040404 solid;
-  }
+    tr {
+        border: 3px #040404 solid;
+        
+    }
+    td {
+        border: 3px #040404 solid;
+    }
     table {
     width: 100%;
     text-align: center;
     justify-content: center;
     border: 3px #040404 solid;
-    
-  
-  
-  th {
-    color: #40376E ;
-    background-color: #D7D9CE;
-  }
-}
+    border-collapse: collapse;
+    }
+    th {
+        color: #40376E ;
+        background-color: #D7D9CE;
+        border: 3px #040404 solid;
+    }
+
+`
+
+const TableHeader = styled.div`
+    display:flex;
+    justify-content: center
+    h1 {
+        padding-left:40%
+    }
 `
 
 
@@ -79,7 +118,6 @@ function SleepTable (props) {
             })
     }
 
-
     const updateSleepEntry = e =>{
         e.preventDefault()
         console.log(logToEdit)
@@ -96,8 +134,14 @@ function SleepTable (props) {
 
     
     return (
+        <Style>
         <SleepTableStyle>
-            <h1>Sleep Table</h1>
+            <TableHeader>
+                <h1>Sleep Table</h1>
+                <h1 onClick={() => props.setIsAdding(!props.isAdding)}>
+                    +
+                </h1>
+            </TableHeader>
             <table>
                 <tbody>
                     
@@ -117,7 +161,7 @@ function SleepTable (props) {
                             {/* <td>{log.Sleepscore || 'Not Available'}</td> */}
                             <td>{log.feels}</td>
                             <td>
-                                <button onClick={(e) => editLog(log)}>Edit</button>
+                                <Toggle onClick={(e) => editLog(log)}>Edit</Toggle>
                                 
                                 
                             </td>
@@ -154,6 +198,7 @@ function SleepTable (props) {
                         
                     )}
         </SleepTableStyle> 
+        </Style>
     )
 }
 
