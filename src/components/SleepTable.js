@@ -80,13 +80,13 @@ function SleepTable (props) {
     }
 
 
-    const updateSleepEntry = sleepEntry =>{
-        sleepEntry.preventDefault()
+    const updateSleepEntry = e =>{
+        e.preventDefault()
         console.log(logToEdit)
-        axiosWithAuth().put(`/api/users/sleepdata/${sleepEntry.id}`, logToEdit)
+        axiosWithAuth().put(`/api/users/sleepdata/${logToEdit.id}`, logToEdit)
             .then(res=> {
                 console.log(res)
-                setSleepLog([...sleepLog.filter(sleep=>sleep.id !== res.data.id), res.data.feels])
+                setSleepLog([...sleepLog.filter(sleep=>sleep.id !== res.data.id), res.data])
                 setEditing(false)
             })
             .catch(err=>{
@@ -149,6 +149,7 @@ function SleepTable (props) {
                             
                            
                             <button type="submit">Submit</button>
+                            <button onClick={()=> setEditing(false)}>Cancel</button>
                         </form>
                         
                     )}
