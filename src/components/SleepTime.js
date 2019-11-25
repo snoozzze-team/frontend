@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from "react"
 import axios from "../utils/axiosWithAuth"
 import dayjs from "dayjs"
+import styled from "styled-components"
+
+
+const Style = styled.div`
+  width: 900px;
+  // height: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  box-sizing: content-box;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: solid #fff13a 4px;
+  background: #40376e;
+  padding: 10px;
+  border-radius: 50px;
+  font-size: 2rem;
+  color: #D7D9CE;
+`
+
 
 export default function SleepTime() {
   const [hasEnoughEntries, setHasEnoughEntries] = useState(false)
@@ -34,11 +54,11 @@ export default function SleepTime() {
   }, [sleepData])
 
   return (
-    <div>
+    <Style>
       {!hasEnoughEntries && <p>Doesn't have enough entries!</p>}
       {hasEnoughEntries && (
         <p>{`Your optimal sleep time is ${optimal} hours`}</p>
       )}
-    </div>
+    </Style>
   )
 }
