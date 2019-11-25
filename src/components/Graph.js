@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react"
 
 import axiosWithAuth from "../utils/axiosWithAuth"
 import styled from 'styled-components';
@@ -58,7 +58,7 @@ const StyledHeading = styled.h2`
 
 
 //APi 
-const data = function() {
+function data() {
   
   axiosWithAuth().get("/api/users/sleepdata")
       .then(res=>
