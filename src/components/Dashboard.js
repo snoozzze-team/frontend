@@ -5,6 +5,8 @@ import { UserContext } from "../contexts"
 import Graph from "./Graph"
 import Buttons from "./Buttons"
 import SleepModal from "./SleepModal"
+import SleepTable from "./SleepTable"
+import SleepTime from "./SleepTime"
 
 export default function Dashboard() {
   const { user, setUser } = useContext(UserContext)
@@ -21,6 +23,8 @@ export default function Dashboard() {
       {user && <h1>Welcome {user.username}</h1>}
       <Graph />
       <Buttons isAdding={isAdding} setIsAdding={setIsAdding}/>
+      <SleepTime/>
+      <SleepTable/>
     </div>
   )
 }
