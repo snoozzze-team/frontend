@@ -41,6 +41,10 @@ const SleepTableStyle = styled.div`
   margin: 0 auto;
   border-radius: 50px;
   
+    h1 {
+        color: #D7D9CE;
+        white-space: nowrap;
+    }
 
     tr {
         border: 3px #040404 solid;
@@ -62,22 +66,23 @@ const SleepTableStyle = styled.div`
         border: 3px #040404 solid;
     }
 
+    form {
+        margin: 30px 0;
+    }
+
 `
 
 const TableHeader = styled.div`
     display:flex;
     justify-content: center
     h1 {
-        padding-left:40%
+        padding-left: 38%
     }
 `
 
 
 //SleepTable React Component
 
-const initialLog = {
-
-}
 
 function SleepTable (props) {
     const [sleepLog, setSleepLog] = useState([])
@@ -89,8 +94,7 @@ function SleepTable (props) {
         feels: "",
         notes:""
     });
-    const [newMood, setNewMood] = useState({})
-
+  
     const editLog = log => {
         setEditing(true);
         setLogToEdit(log);
@@ -135,69 +139,68 @@ function SleepTable (props) {
     
     return (
         <Style>
-        <SleepTableStyle>
-            <TableHeader>
-                <h1>Sleep Table</h1>
-                <h1 onClick={() => props.setIsAdding(!props.isAdding)}>
-                    +
-                </h1>
-            </TableHeader>
-            <table>
-                <tbody>
-                    
-                    <tr>
-                        <th>Date</th>
-                        <th>Hours Slept</th>
-                        <th>Feeling</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                   
-                    
-                    {sleepLog.map(log => (
-                        <tr key={log.id}>
-                            <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
-                            <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
-                            {/* <td>{log.Sleepscore || 'Not Available'}</td> */}
-                            <td>{log.feels}</td>
-                            <td>
-                                <Toggle onClick={(e) => editLog(log)}>Edit</Toggle>
-                                
-                                
-                            </td>
-                            <td>
-                                <span onClick={e=>{
-                                    e.stopPropagation();
-                                    deleteSleepEntry(log)
-                                }}> X </span>
-                            </td>
+            <SleepTableStyle>
+                <TableHeader>
+                    <h1>Sleep Table</h1>
+                    <h1 onClick={() => props.setIsAdding(!props.isAdding)}>
+                        +
+                    </h1>
+                </TableHeader>
+                <table>
+                    <tbody>
+                        
+                        <tr>
+                            <th>Date</th>
+                            <th>Hours Slept</th>
+                            <th>Feeling</th>
+                            <th>Update</th>
+                            <th>Delete</th>
                         </tr>
-                    ))}
-                  
-                
-                </tbody>
-            </table>
-            {editing && (
+                    
                         
-                        <form onSubmit={updateSleepEntry}>
-                            <label>Update Your Mood</label>
-                            <input
-                                placeholder="Mood"
-                                type="text"
-                                name="feels"
-                                value={logToEdit.feels}
-                                onChange={e =>
-                                    setLogToEdit({...logToEdit, feels: e.target.value })    
-                                }
-                            />
+                        {sleepLog.map(log => (
+                            <tr key={log.id}>
+                                <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
+                                <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
+                                <td>{log.feels}</td>
+                                <td>
+                                    <Toggle onClick={(e) => editLog(log)}>Edit</Toggle>
+                                    
+                                    
+                                </td>
+                                <td>
+                                    <span onClick={e=>{
+                                        e.stopPropagation();
+                                        deleteSleepEntry(log)
+                                    }}> X </span>
+                                </td>
+                            </tr>
+                        ))}
+                    
+                    
+                    </tbody>
+                </table>
+                {editing && (
                             
-                           
-                            <button type="submit">Submit</button>
-                            <button onClick={()=> setEditing(false)}>Cancel</button>
-                        </form>
-                        
-                    )}
-        </SleepTableStyle> 
+                            <form onSubmit={updateSleepEntry}>
+                                <label>Update Your Mood</label>
+                                <input
+                                    placeholder="Mood"
+                                    type="text"
+                                    name="feels"
+                                    value={logToEdit.feels}
+                                    onChange={e =>
+                                        setLogToEdit({...logToEdit, feels: e.target.value })    
+                                    }
+                                />
+                                
+                            
+                                <button type="submit">Submit</button>
+                                <button onClick={()=> setEditing(false)}>Cancel</button>
+                            </form>
+                            
+                        )}
+            </SleepTableStyle> 
         </Style>
     )
 }
