@@ -35,6 +35,7 @@ export default function TimePicker({ starting }) {
     meridiem: dayjs().format("A"),
     "12hour": dayjs().format("hh")
   })
+  
   useEffect(() => {
     const yearMonthDay = dayjs(date).format("YYYY-MM-DD")
     const twentyfourhours = `${time.hour}:${time.minute}`
@@ -43,6 +44,7 @@ export default function TimePicker({ starting }) {
     starting ? setStart(completeDate) : setEnd(completeDate)
     // eslint-disable-next-line
   }, [time, date])
+  
   useEffect(() => {
     if (time.hour >= 12) {
       setTime({ ...time, "12hour": "12", meridiem: "PM" })
