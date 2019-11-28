@@ -35,7 +35,7 @@ export default function TimePicker({ starting }) {
     meridiem: dayjs().format("A"),
     "12hour": dayjs().format("hh")
   })
-  
+
   useEffect(() => {
     const yearMonthDay = dayjs(date).format("YYYY-MM-DD")
     const twentyfourhours = `${time.hour}:${time.minute}`
@@ -44,28 +44,37 @@ export default function TimePicker({ starting }) {
     starting ? setStart(completeDate) : setEnd(completeDate)
     // eslint-disable-next-line
   }, [time, date])
-  
+
   useEffect(() => {
     if (time.hour >= 12) {
-      setTime({ ...time, "12hour": "12", meridiem: "PM" })
+      setTime(currentTime => {
+        return { ...currentTime, "12hour": "12", meridiem: "PM" }
+      })
       if (time.hour > 12) {
-        setTime({
-          ...time,
-          "12hour": `${
-            time.hour - 12 < 10
-              ? `0${parseInt(time.hour) - 12}`
-              : `${parseInt(time.hour) - 12}`
-          }`,
-          meridiem: "PM"
+        setTime(currentTime => {
+          return {
+            ...time,
+            "12hour": `${
+              time.hour - 12 < 10
+                ? `0${parseInt(time.hour) - 12}`
+                : `${parseInt(time.hour) - 12}`
+            }`,
+            meridiem: "PM"
+          }
         })
       }
     } else if (time.hour < 12) {
-      if (time.hour === '00') {
-        setTime({ ...time, "12hour": "12", meridiem: "AM" })
+      if (time.hour === "00") {
+        setTime(currentTime => {
+          return { ...currentTime, "12hour": "12", meridiem: "AM" }
+        })
       } else {
-        setTime({ ...time, "12hour": time.hour, meridiem: "AM" })
+        setTime(currentTime => {
+          return { ...currentTime, "12hour": time.hour, meridiem: "AM" }
+        })
       }
     }
+    // eslint-disable-next-line
   }, [time.hour])
 
   const handleDateChange = date => {
