@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <Route
           exact
-          path="/"
+          path="/login"
           render={props => <AuthModal {...props} isLogin/>}
         />
         <Route
@@ -20,7 +20,7 @@ function App() {
           path="/signup"
           render={props => <AuthModal {...props} />}
         />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/" component={Dashboard} />
       </div>
     </UserContext.Provider>
   )
