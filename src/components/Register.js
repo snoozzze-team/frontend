@@ -23,7 +23,7 @@ export default function Register(props) {
           username: account.username,
           password: account.password
         })
-        props.history.push("/dashboard")
+        props.history.push("/")
       } catch (error) {
         const status = error.response && error.response.status
         setError(`${status}: ${error.response}`)

@@ -20,6 +20,7 @@ const Style = styled.div`
     min-width: 300px;
     margin: 20% auto;
     padding-bottom: 3rem ;
+    border-radius: 5px;
     > h1 {
       cursor: pointer;
       align-self: flex-end;
