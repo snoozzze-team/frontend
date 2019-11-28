@@ -71,6 +71,8 @@ export default function AuthModal({ isLogin, ...props }) {
         button {
           box-sizing: border-box;
           width: 100%;
+          padding: 0.5rem;
+          margin: 0.5rem;
         }
         button {
           background-color: white;
