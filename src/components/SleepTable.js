@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from "react"
+import React, {useState , useContext} from "react"
 
 import styled from "styled-components"
 
 import axiosWithAuth from "../utils/axiosWithAuth"
 import dayjs from "dayjs"
+
+import {SleepContext} from "../contexts/index"
 
 //Styled Components
 
@@ -33,6 +35,7 @@ const Toggle = styled.button`
   border: 2px solid #fff13a;
   border-radius: 10px;
 `
+
 
 const SleepTableStyle = styled.div`
   color: #040404;
@@ -85,7 +88,7 @@ const TableHeader = styled.div`
 
 
 function SleepTable (props) {
-    const [sleepLog, setSleepLog] = useState([])
+    
     const [editing, setEditing] = useState(false);
     const [logToEdit, setLogToEdit] = useState({
         id: "",
@@ -94,21 +97,15 @@ function SleepTable (props) {
         feels: "",
         notes:""
     });
+
+    const {sleepLog, setSleepLog} = useContext(SleepContext)
   
     const editLog = log => {
         setEditing(true);
         setLogToEdit(log);
       };
 
-    useEffect(()=>{
-        axiosWithAuth().get(`/api/users/sleepdata`)
-            .then(res=>
-               setSleepLog(res.data)
-                )
-            .catch(err=>
-                console.log(err.response)
-                )
-    }, [])
+
 
 
     const deleteSleepEntry = sleepEntry =>{
