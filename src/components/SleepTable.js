@@ -5,7 +5,7 @@ import styled from "styled-components"
 import axiosWithAuth from "../utils/axiosWithAuth"
 import dayjs from "dayjs"
 
-import {SleepContext, UserContext} from "../contexts/index"
+import {SleepContext} from "../contexts/index"
 
 //Styled Components
 
@@ -88,7 +88,7 @@ const TableHeader = styled.div`
 
 
 function SleepTable (props) {
-    // const [sleepLog, setSleepLog] = useState([])
+    
     const [editing, setEditing] = useState(false);
     const [logToEdit, setLogToEdit] = useState({
         id: "",
@@ -105,15 +105,7 @@ function SleepTable (props) {
         setLogToEdit(log);
       };
 
-    // useEffect(()=>{
-    //     axiosWithAuth().get(`/api/users/sleepdata`)
-    //         .then(res=>
-    //            setSleepLog(res.data)
-    //             )
-    //         .catch(err=>
-    //             console.log(err.response)
-    //             )
-    // }, [])
+
 
 
     const deleteSleepEntry = sleepEntry =>{
