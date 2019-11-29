@@ -34,6 +34,7 @@ const Toggle = styled.button`
   border-radius: 10px;
 `
 
+
 const SleepTableStyle = styled.div`
   color: #040404;
   width: 850px;
