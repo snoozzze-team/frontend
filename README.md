@@ -31,7 +31,7 @@ Backend Server:
  - react
  - react-router-dom
  - axios
- - styled-components (?)
+ - styled-components
  - recharts
 
 ## Available Scripts
