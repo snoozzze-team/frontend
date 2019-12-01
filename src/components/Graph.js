@@ -1,8 +1,10 @@
-import React, { PureComponent, useEffect, useState } from "react";
+import React, { PureComponent, useEffect, useState, useContext } from "react";
 
 import axios from "axios";
 import styled from 'styled-components';
 
+import {SleepContext} from "../contexts/index"
+import dayjs from "dayjs"
 
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label, } from 'recharts';
@@ -28,33 +30,36 @@ const StyledHeading = styled.h2`
       text-align: center;
 `;
 
-const data = [
-  {
-    name: '1 Day', Hour: 1, Feeling: 1,
-  },
-  {
-    name: '2 Day', Hour: 3, Feeling: 4,
-  },
-  {
-    name: '3 Day', Hour: 4, Feeling: 3,
-  },
-  {
-    name: '4 Day', Hour: 12, Feeling: 2,
-  },
-  {
-    name: '5 Day', Hour: 8, Feeling: 1,
-  },
-  {  
-    name: '6 Day', Hour: 2, Feeling: 1,
-  },
-  {
-    name: '7 Day', Hour: 3, Feeling: 3,
-  }, 
+// const data = [
+//   {
+//     name: '1 Day', Hour: 1, Feeling: 1,
+//   },
+//   {
+//     name: '2 Day', Hour: 3, Feeling: 4,
+//   },
+//   {
+//     name: '3 Day', Hour: 4, Feeling: 3,
+//   },
+//   {
+//     name: '4 Day', Hour: 12, Feeling: 2,
+//   },
+//   {
+//     name: '5 Day', Hour: 8, Feeling: 1,
+//   },
+//   {  
+//     name: '6 Day', Hour: 2, Feeling: 1,
+//   },
+//   {
+//     name: '7 Day', Hour: 3, Feeling: 3,
+//   }, 
   
-];
+// ];
+
 
 
 const CustomizedDot = (props) => {
+  
+
   const {
     cx, cy, stroke, payload, value,
   } = props;
@@ -75,10 +80,29 @@ const CustomizedDot = (props) => {
 };
 
 
-export default class Graph extends PureComponent {
+export default function Graph () {
 
+  
+    const { sleepLog } = useContext(SleepContext)
+    console.log(sleepLog)
+ 
+    // const data = [
+    //   ...sleepLog
+    // ]
+
+    const data = sleepLog.map(a => ({...a.feels}))
+    console.log(data)
     
-  render() {
+
+    //date
+    // <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
+
+    //hours slept
+    // <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
+
+    //feel
+    //SleepLog.feel
+
     return (
       <div className='body'>
       <WrapperDiv>
@@ -104,4 +128,3 @@ export default class Graph extends PureComponent {
           </div>
     );
   }
-}
