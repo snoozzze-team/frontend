@@ -86,21 +86,20 @@ export default function Graph () {
     const { sleepLog } = useContext(SleepContext)
     console.log(sleepLog)
  
-    // const data = [
-    //   ...sleepLog
-    // ]
-
-    const data = sleepLog.map(a => ({...a.feels}))
+    const data = sleepLog.map(log => ({
+      ...log.feels,
+      
+    }))
     console.log(data)
     
+    //End Result of Object Wanted
+    //Date
+    // {dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}
 
-    //date
-    // <td>{dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}</td>
-
-    //hours slept
+    //Hours Slept
     // <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
 
-    //feel
+    //Feeling
     //SleepLog.feel
 
     return (
@@ -116,12 +115,12 @@ export default function Graph () {
             }}
           >
             <CartesianGrid stroke="#D7D9CE" strokeDasharray="1 1 " />
-              <XAxis stroke="#FFF13A" dataKey="name" >
+              <XAxis stroke="#FFF13A" dataKey="Date" >
                 </XAxis>
               <YAxis stroke="#FFF13A"/>
               <Tooltip />
               <Legend  />
-              <Line type="monotone"  dataKey="Hour" stroke="yellow" activeDot={{ r: 7 }} />
+              <Line type="monotone"  dataKey="Hours" stroke="yellow" activeDot={{ r: 7 }} />
               <Line type="monotone" dataKey="Feeling" stroke="green" dot={<CustomizedDot />}/>
           </LineChart>
           </WrapperDiv>
