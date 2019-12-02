@@ -4,6 +4,8 @@ import styled from "styled-components"
 import Logo from "../assets/zzz-sleep-symbol.png"
 
 const Style = styled.nav`
+  position: fixed;
+  top: 0;
   display: flex;
   width: 100%;
   justify-content: space-between;

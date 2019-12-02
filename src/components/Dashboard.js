@@ -37,7 +37,7 @@ export default function Dashboard() {
   return (
     <SleepContext.Provider value={{sleepLog, setSleepLog}}>
       <div>
-        {isAdding && <SleepModal setIsAdding={setIsAdding} userId={user.id}/>}
+        {isAdding && <SleepModal setIsAdding={setIsAdding} userId={user.id} setSleepLog={setSleepLog} sleepLog={sleepLog}/>}
         {user && <Welcome>Welcome {user.username}</Welcome>}
         <Graph />
         <Buttons isAdding={isAdding} setIsAdding={setIsAdding}/>
