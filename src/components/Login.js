@@ -16,7 +16,7 @@ export default function Login(props) {
     e.preventDefault()
     try {
       await LoginUser(credentials)
-      props.history.push("/dashboard")
+      props.history.push("/")
     } catch (error) {
       const status = error.response && error.response.status
       switch (status) {

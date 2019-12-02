@@ -22,9 +22,6 @@ const Style = styled.div`
     input {
       max-width: 2rem;
     }
-    span {
-      cursor: pointer;
-    }
   }
 `
 
@@ -33,20 +30,52 @@ export default function TimePicker({ starting }) {
   const [date, setDate] = useState(new Date())
 
   const [time, setTime] = useState({
-    hour: dayjs().format("hh"),
+    hour: dayjs().format("HH"),
     minute: dayjs().format("mm"),
-    meridiem: dayjs().format("A")
+    meridiem: dayjs().format("A"),
+    "12hour": dayjs().format("hh")
   })
+
   useEffect(() => {
     const yearMonthDay = dayjs(date).format("YYYY-MM-DD")
-    const twentyfourhours =
-      time.meridiem === "AM"
-        ? time.hour + ":" + time.minute
-        : parseInt(time.hour) + 12 + ":" + time.minute
+    const twentyfourhours = `${time.hour}:${time.minute}`
     const completeDate = `${yearMonthDay}T${twentyfourhours}`
+    console.log(completeDate)
     starting ? setStart(completeDate) : setEnd(completeDate)
     // eslint-disable-next-line
   }, [time, date])
+
+  useEffect(() => {
+    if (time.hour >= 12) {
+      setTime(currentTime => {
+        return { ...currentTime, "12hour": "12", meridiem: "PM" }
+      })
+      if (time.hour > 12) {
+        setTime(currentTime => {
+          return {
+            ...time,
+            "12hour": `${
+              time.hour - 12 < 10
+                ? `0${parseInt(time.hour) - 12}`
+                : `${parseInt(time.hour) - 12}`
+            }`,
+            meridiem: "PM"
+          }
+        })
+      }
+    } else if (time.hour < 12) {
+      if (time.hour === "00") {
+        setTime(currentTime => {
+          return { ...currentTime, "12hour": "12", meridiem: "AM" }
+        })
+      } else {
+        setTime(currentTime => {
+          return { ...currentTime, "12hour": time.hour, meridiem: "AM" }
+        })
+      }
+    }
+    // eslint-disable-next-line
+  }, [time.hour])
 
   const handleDateChange = date => {
     setDate(date)
@@ -59,28 +88,72 @@ export default function TimePicker({ starting }) {
   const incrementTime = part => {
     const incrementedTime = parseInt(time[part]) + 1
 
-    if (part === "hour" && incrementedTime <= 12) {
-      setTime({ ...time, [part]: `${incrementedTime}` })
-    } else if (part === "minute" && incrementedTime <= 59) {
-      setTime({
-        ...time,
-        [part]:
-          incrementedTime < 10 ? `0${incrementedTime}` : `${incrementedTime}`
-      })
+    if (part === "hour") {
+      if (incrementedTime <= 23) {
+        if (incrementedTime < 10) {
+          setTime({ ...time, [part]: `0${incrementedTime}` })
+        } else {
+          setTime({ ...time, [part]: incrementedTime })
+        }
+      } else {
+        setTime({ ...time, [part]: "00" })
+      }
+    }
+    if (part === "minute") {
+      if (incrementedTime <= 59) {
+        if (incrementedTime < 10) {
+          setTime({ ...time, [part]: `0${incrementedTime}` })
+        } else {
+          setTime({ ...time, [part]: incrementedTime })
+        }
+      } else {
+        setTime({
+          ...time,
+          [part]: "00",
+          hour:
+            time.hour < 23
+              ? time.hour < 10
+                ? `0${parseInt(time.hour) + 1}`
+                : `${parseInt(time.hour) + 1}`
+              : `00`
+        })
+      }
     }
   }
 
   const decrementTime = part => {
     const decrementedTime = parseInt(time[part]) - 1
-    if (part === "hour" && decrementedTime !== 0) {
-      setTime({ ...time, [part]: `${decrementedTime}` })
+    if (part === "hour") {
+      if (decrementedTime >= 0) {
+        if (decrementedTime < 10) {
+          setTime({ ...time, [part]: `0${decrementedTime}` })
+        } else {
+          setTime({ ...time, [part]: decrementedTime })
+        }
+      } else {
+        setTime({ ...time, [part]: "23" })
+      }
     }
-    if (part === "minute" && decrementedTime !== -1) {
-      setTime({
-        ...time,
-        [part]:
-          decrementedTime < 10 ? `0${decrementedTime}` : `${decrementedTime}`
-      })
+
+    if (part === "minute") {
+      if (decrementedTime > 0) {
+        if (decrementedTime < 10) {
+          setTime({ ...time, [part]: `0${decrementedTime}` })
+        } else {
+          setTime({ ...time, [part]: decrementedTime })
+        }
+      } else {
+        setTime({
+          ...time,
+          [part]: "59",
+          hour:
+            time.hour > 0
+              ? time.hour < 10
+                ? `0${parseInt(time.hour) - 1}`
+                : `${parseInt(time.hour) - 1}`
+              : `23`
+        })
+      }
     }
   }
 
@@ -100,7 +173,7 @@ export default function TimePicker({ starting }) {
             min="1"
             max="12"
             onChange={handleChange}
-            value={time.hour}
+            value={time["12hour"]}
           />
           <button onClick={() => decrementTime("hour")}>
             <FontAwesomeIcon color="gray" icon={faChevronDown} />
@@ -123,14 +196,7 @@ export default function TimePicker({ starting }) {
             <FontAwesomeIcon color="gray" icon={faChevronDown} />
           </button>
         </div>
-        <span
-          name="meridiem"
-          onClick={() =>
-            setTime({ ...time, meridiem: time.meridiem === "AM" ? "PM" : "AM" })
-          }
-        >
-          {time.meridiem}
-        </span>
+        <span name="meridiem">{time.meridiem}</span>
       </div>
     </Style>
   )
