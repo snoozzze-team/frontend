@@ -84,6 +84,7 @@ export default function SleepModal(props) {
     try {
       await AddSleepEntry(sleepEntry)
       setLoading(false)
+      props.setSleepLog([...props.sleepLog, sleepEntry])
       props.setIsAdding(false)
     } catch (error) {
       setLoading(false)
