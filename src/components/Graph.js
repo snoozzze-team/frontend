@@ -34,31 +34,6 @@ const StyledHeading = styled.h2`
   text-align: center;
 `
 
-// const data = [
-//   {
-//     name: '1 Day', Hour: 1, Feeling: 1,
-//   },
-//   {
-//     name: '2 Day', Hour: 3, Feeling: 4,
-//   },
-//   {
-//     name: '3 Day', Hour: 4, Feeling: 3,
-//   },
-//   {
-//     name: '4 Day', Hour: 12, Feeling: 2,
-//   },
-//   {
-//     name: '5 Day', Hour: 8, Feeling: 1,
-//   },
-//   {
-//     name: '6 Day', Hour: 2, Feeling: 1,
-//   },
-//   {
-//     name: '7 Day', Hour: 3, Feeling: 3,
-//   },
-
-// ];
-
 const CustomizedDot = props => {
   const { cx, cy, stroke, payload, value } = props
 
@@ -100,7 +75,7 @@ export default function Graph() {
   useEffect(() => {
     setData(
       sleepLog.map(log => ({
-        date: log.dateTimeFrom,
+        date: dayjs(log.dateTimeFrom).format('MM/DD/YYYY'),
         hours: dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"),
         feels: log.feels
       }))
