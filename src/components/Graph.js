@@ -83,15 +83,6 @@ export default function Graph() {
   }, [sleepLog])
   console.log(data)
 
-  //End Result of Object Wanted
-  //Date
-  // {dayjs(log.dateTimeFrom).format('MM/DD/YYYY')}
-
-  //Hours Slept
-  // <td>{(dayjs(log.dateTimeTo).diff(dayjs(log.dateTimeFrom), "hour"))}</td>
-
-  //Feeling
-  //SleepLog.feel
 
   return (
     <div className="body">
